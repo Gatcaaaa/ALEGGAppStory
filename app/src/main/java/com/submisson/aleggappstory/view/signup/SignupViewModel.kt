@@ -9,13 +9,13 @@ import com.submisson.aleggappstory.data.Result
 
 class SignupViewModel(private val repository: UserRepository): ViewModel() {
 
-    private val _registrasiResponse = MediatorLiveData<Result<RegisterResponse>>()
-    val registrasiResponse: LiveData<Result<RegisterResponse>> = _registrasiResponse
+    private val _registerViewModel = MediatorLiveData<Result<RegisterResponse>>()
+    val registerViewModel: LiveData<Result<RegisterResponse>> = _registerViewModel
 
-    fun registrasi(name: String, email: String, password: String){
+    fun register(name: String, email: String, password: String){
         val liveData = repository.register(name, email, password)
-        _registrasiResponse.addSource(liveData){ result ->
-            _registrasiResponse.value = result
+        _registerViewModel.addSource(liveData){ result ->
+            _registerViewModel.value = result
         }
     }
 }

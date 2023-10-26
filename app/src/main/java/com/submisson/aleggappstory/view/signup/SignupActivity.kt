@@ -39,7 +39,7 @@ class SignupActivity : AppCompatActivity() {
 
     private fun setupLogin() {
         val email =  binding.emailEditText.text.toString()
-        signupViewModel.registrasiResponse.observe(this){
+        signupViewModel.registerViewModel.observe(this){
             when(it){
                 is Result.Loading -> {
                     showLoading(true)
@@ -91,7 +91,7 @@ class SignupActivity : AppCompatActivity() {
                     val name = nameEditText.text.toString().trim()
                     val email = emailEditText.text.toString().trim()
                     val password = passwordEditText.text.toString().trim()
-                    signupViewModel.registrasi(name, email, password)
+                    signupViewModel.register(name, email, password)
                 } else {
                    toastFailed()
                 }
