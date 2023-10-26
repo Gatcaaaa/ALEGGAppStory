@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">ALEGGAppStory</string>
+    <string name="signup">Daftar</string>
+    <string name="login">Masuk</string>
+    <string name="message_welcome_page">Mau liat keseruan user dicoding? gasss mampir di ALEGGAppStory disini kamu bisa melihat keseruan anggota yang lain dan juga kamu bisa me-share kegiatan kam di ALEGGAppStory</string>
+    <string name="title_welcome_page">Selamat datang di ALEGGAppStory</string>
+    <string name="title_signup_page">Lengkapi data dirimu di bawah ini ya</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="message_login_page">Masukkan dulu datamu ya</string>
+    <string name="title_login_page">Sudah siap untuk liat keseruan kami?</string>
+    <string name="name">Nama</string>
+    <string name="message_main_page">Selamat Belajar di Dicoding.</string>
+    <string name="greeting">Halo %1$s,</string>
+    <string name="logout">Keluar</string>
+    <string name="hint_password">Enter Password</string>
+    <string name="not_invalid_password">Password Tidak Boleh Kurang Dari 8</string>
+    <string name="description">description</string>
+    <string name="story_image">story image\n</string>
+    <string name="registrasi_gagal">Registrasi Gagal</string>
+
+</resources>
