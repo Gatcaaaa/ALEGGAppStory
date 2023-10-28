@@ -18,5 +18,14 @@
     <string name="description">description</string>
     <string name="story_image">story image\n</string>
     <string name="registrasi_gagal">Registrasi Gagal</string>
+    <string name="keluar">Keluar</string>
+    <string name="logout_title">Keluar</string>
+    <string name="logout_messege">Apakah anda ingin keluar?</string>
+    <string name="yes">Iya</string>
+    <string name="no">Tidak</string>
+    <string name="description_hint">Deskripsi...</string>
+    <string name="upload">Upload</string>
+    <string name="gallery">Galeri</string>
+    <string name="camera">Kamera</string>
 
 </resources>

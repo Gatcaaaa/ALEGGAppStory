@@ -23,4 +23,17 @@
         android:visibility="gone"
         android:layout_gravity="center"
         tools:visibility="visible" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_story"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:src="@drawable/baseline_add_box_24"
+        app:fabSize="normal"
+        tools:ignore="ImageContrastCheck,RedundantDescriptionCheck">
+
+    </com.google.android.material.floatingactionbutton.FloatingActionButton>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

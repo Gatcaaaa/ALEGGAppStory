@@ -1,19 +1,19 @@
 package com.submisson.aleggappstory.view.main
 
 import android.content.Intent
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
-import android.view.WindowInsets
-import android.view.WindowManager
-import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.submisson.aleggappstory.R
 import com.submisson.aleggappstory.data.Result
 import com.submisson.aleggappstory.databinding.ActivityMainBinding
 import com.submisson.aleggappstory.view.ViewModelFactory
+import com.submisson.aleggappstory.view.upload.AddStoryActivity
 import com.submisson.aleggappstory.view.welcome.WelcomeActivity
 
 class MainActivity : AppCompatActivity() {
@@ -33,15 +33,31 @@ class MainActivity : AppCompatActivity() {
         val layoutManager = LinearLayoutManager(this)
         binding.rvStoryList.layoutManager = layoutManager
 
-        mainViewModel.getSession().observe(this){ result ->
-           if (!result.isLogin){
-               startActivity(Intent(this, WelcomeActivity::class.java))
-               finish()
-           } else {
-               mainViewModel.getStories(result.token)
-           }
-        }
+        setupLogin()
+        setupListItem()
+        setupAddStory()
+    }
 
+    private fun setupAddStory() {
+        binding.addStory.setOnClickListener{
+            val intent = Intent(this, AddStoryActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+
+    private fun setupLogin() {
+        mainViewModel.getSession().observe(this){ result ->
+            if (!result.isLogin){
+                startActivity(Intent(this, WelcomeActivity::class.java))
+                finish()
+            } else {
+                mainViewModel.getStories(result.token)
+            }
+        }
+    }
+
+    private fun setupListItem() {
         mainViewModel.storyListItem.observe(this){
             when (it){
                 is Result.Loading -> {
@@ -57,6 +73,20 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater: MenuInflater  = menuInflater
+        inflater.inflate(R.menu.menu_item, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_logout -> mainViewModel.logout()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun showLoading(isLoading: Boolean) {
