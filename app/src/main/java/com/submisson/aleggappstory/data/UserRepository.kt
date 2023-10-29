@@ -7,10 +7,12 @@ import com.submisson.aleggappstory.data.pref.UserPreference
 import com.submisson.aleggappstory.data.response.ListStoryItem
 import com.submisson.aleggappstory.data.response.LoginResponse
 import com.submisson.aleggappstory.data.response.RegisterResponse
-import com.submisson.aleggappstory.data.response.StoriesResponse
+import com.submisson.aleggappstory.data.response.UploadStoriesResponse
 import com.submisson.aleggappstory.data.retrofit.ApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
 class UserRepository private constructor(
 
@@ -71,6 +73,21 @@ class UserRepository private constructor(
                emit(Result.Error(e.message.toString()))
            }
        }
+
+    fun addStory(
+        token: String,
+        file: MultipartBody.Part,
+        description: RequestBody
+    ): LiveData<Result<UploadStoriesResponse>> =
+        liveData(Dispatchers.IO){
+            emit(Result.Loading)
+            try {
+                val response = apiService.uploadStories("Bearer $token", file, description)
+                emit(Result.Success(response))
+            } catch (e: Exception){
+                emit(Result.Error(e.message.toString()))
+            }
+        }
 
     companion object {
         @Volatile

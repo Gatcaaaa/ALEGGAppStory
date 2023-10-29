@@ -27,5 +27,8 @@
     <string name="upload">Upload</string>
     <string name="gallery">Galeri</string>
     <string name="camera">Kamera</string>
+    <string name="empty_image_warning">Foto tidak boleh kosong</string>
+    <string name="upload_messege">Berhasil Upload</string>
+    <string name="positive_button">Next</string>
 
 </resources>

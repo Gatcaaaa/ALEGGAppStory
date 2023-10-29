@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 is Result.Success -> {
                     showLoading(false)
-                    val adapter = ListAdapter(it.data)
+                    adapter = ListAdapter(it.data)
                     binding.rvStoryList.adapter = adapter
                 }
             }

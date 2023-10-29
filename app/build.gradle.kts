@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -9,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "com.submisson.aleggappstory"
-        minSdk = 21
+        minSdk = 29
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
@@ -61,4 +62,6 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.0")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.github.bumptech.glide:glide:4.14.0")
+
+    implementation("androidx.exifinterface:exifinterface:1.3.6")
 }

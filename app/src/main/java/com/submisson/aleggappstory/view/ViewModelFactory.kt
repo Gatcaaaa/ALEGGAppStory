@@ -8,6 +8,7 @@ import com.submisson.aleggappstory.di.Injection
 import com.submisson.aleggappstory.view.login.LoginViewModel
 import com.submisson.aleggappstory.view.main.MainViewModel
 import com.submisson.aleggappstory.view.signup.SignupViewModel
+import com.submisson.aleggappstory.view.upload.AddStoryViewModel
 
 class ViewModelFactory(private val repository: UserRepository): ViewModelProvider.NewInstanceFactory() {
     @Suppress("UNCHECKED_CAST")
@@ -21,6 +22,9 @@ class ViewModelFactory(private val repository: UserRepository): ViewModelProvide
             }
             modelClass.isAssignableFrom(SignupViewModel::class.java) -> {
                 SignupViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(AddStoryViewModel::class.java)-> {
+                AddStoryViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

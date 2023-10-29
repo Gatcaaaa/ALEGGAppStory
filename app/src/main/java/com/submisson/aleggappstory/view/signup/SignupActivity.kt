@@ -38,7 +38,6 @@ class SignupActivity : AppCompatActivity() {
     }
 
     private fun setupLogin() {
-        val email =  binding.emailEditText.text.toString()
         signupViewModel.registerViewModel.observe(this){
             when(it){
                 is Result.Loading -> {
@@ -48,7 +47,7 @@ class SignupActivity : AppCompatActivity() {
                     showLoading(false)
                     AlertDialog.Builder(this).apply {
                         setTitle("Yeah!")
-                        setMessage("Akun dengan $email sudah jadi nih. Yul gaskun login")
+                        setMessage("Akunmu sudah jadi nih. Yuk gaskun login")
                         setCancelable(false)
                         setPositiveButton("Masuk"){_, _ ->
                             val intent = Intent(context, LoginActivity::class.java)

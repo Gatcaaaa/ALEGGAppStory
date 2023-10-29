@@ -3,11 +3,16 @@ package com.submisson.aleggappstory.data.retrofit
 import com.submisson.aleggappstory.data.response.LoginResponse
 import com.submisson.aleggappstory.data.response.RegisterResponse
 import com.submisson.aleggappstory.data.response.StoriesResponse
+import com.submisson.aleggappstory.data.response.UploadStoriesResponse
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.Part
 
 interface ApiService {
     @FormUrlEncoded
@@ -30,4 +35,12 @@ interface ApiService {
     suspend fun getStories(
         @Header("Authorization") token: String
     ):StoriesResponse
+
+    @Multipart
+    @POST("stories")
+    suspend fun uploadStories(
+        @Header("Authorization") token: String,
+        @Part file: MultipartBody.Part,
+        @Part("description") description: RequestBody
+    ):UploadStoriesResponse
 }
