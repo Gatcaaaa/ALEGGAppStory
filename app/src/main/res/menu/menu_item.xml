@@ -6,4 +6,9 @@
         android:title="@string/keluar"
         app:showAsAction="never">
     </item>
+    <item
+        android:id="@+id/menu_maps"
+        android:title="@string/maps"
+        app:showAsAction="never">
+    </item>
 </menu>

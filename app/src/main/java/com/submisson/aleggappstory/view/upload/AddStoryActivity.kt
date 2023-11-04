@@ -63,6 +63,24 @@ class AddStoryActivity : AppCompatActivity() {
         val factory: ViewModelFactory = ViewModelFactory.getInstance(this)
         addStoryViewModel = ViewModelProvider(this, factory)[AddStoryViewModel::class.java]
 
+        setupUpload()
+
+        if (!allPermissionGranted()){
+            requestPermissionLauncher.launch(REQUIRED_PERMISSION)
+        }
+
+        binding.galleryButton.setOnClickListener {
+            startGallery()
+        }
+        binding.cameraButton.setOnClickListener {
+            startCamera()
+        }
+        binding.uploadButton.setOnClickListener {
+            startUpload()
+        }
+    }
+
+    private fun setupUpload() {
         addStoryViewModel.addStoryViewModel.observe(this){
             when (it){
                 is Result.Loading -> {
@@ -89,21 +107,8 @@ class AddStoryActivity : AppCompatActivity() {
                 }
             }
         }
-
-        if (!allPermissionGranted()){
-            requestPermissionLauncher.launch(REQUIRED_PERMISSION)
-        }
-
-        binding.galleryButton.setOnClickListener {
-            startGallery()
-        }
-        binding.cameraButton.setOnClickListener {
-            startCamera()
-        }
-        binding.uploadButton.setOnClickListener {
-            startUpload()
-        }
     }
+
     private fun startUpload() {
         var token: String
         currentImageUri?.let {uri ->

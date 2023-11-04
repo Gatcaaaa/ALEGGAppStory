@@ -30,5 +30,7 @@
     <string name="empty_image_warning">Foto tidak boleh kosong</string>
     <string name="upload_messege">Berhasil Upload</string>
     <string name="positive_button">Next</string>
+    <string name="maps">Maps</string>
+    <string name="title_activity_maps">MapsActivity</string>
 
 </resources>
