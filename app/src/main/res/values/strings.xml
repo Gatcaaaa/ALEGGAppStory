@@ -32,5 +32,9 @@
     <string name="positive_button">Next</string>
     <string name="maps">Maps</string>
     <string name="title_activity_maps">MapsActivity</string>
+    <string name="location_not_found">Location Not Found</string>
+    <string name="gps_dialog">GPS Enable</string>
+    <string name="gps_message">GPS Aktif</string>
+    <string name="retry">Coba Lagi</string>
 
 </resources>

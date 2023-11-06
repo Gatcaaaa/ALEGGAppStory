@@ -18,7 +18,6 @@ class DetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         listStoryItem = if (Build.VERSION.SDK_INT >= 33) {
             intent.getParcelableExtra("storyItem", ListStoryItem::class.java)!!
         } else {

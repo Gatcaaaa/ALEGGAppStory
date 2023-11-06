@@ -1,7 +1,12 @@
 package com.submisson.aleggappstory.data
 
+import android.location.Location
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.liveData
 import com.submisson.aleggappstory.data.pref.UserModel
 import com.submisson.aleggappstory.data.pref.UserPreference
 import com.submisson.aleggappstory.data.response.ListStoryItem
@@ -11,8 +16,10 @@ import com.submisson.aleggappstory.data.response.UploadStoriesResponse
 import com.submisson.aleggappstory.data.retrofit.ApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 
 class UserRepository private constructor(
 
@@ -62,28 +69,51 @@ class UserRepository private constructor(
             }
         }
 
-   fun getStories(token: String): LiveData<Result<List<ListStoryItem>>> =
-       liveData(Dispatchers.IO){
-           emit(Result.Loading)
-           try {
-               val response = apiService.getStories("Bearer $token")
-               val stories = response.listStory
-               emit(Result.Success(stories))
-           } catch (e: Exception){
-               emit(Result.Error(e.message.toString()))
+   fun getStories(token: String): LiveData<PagingData<ListStoryItem>>{
+       return Pager(
+           config = PagingConfig(
+               pageSize = 5
+           ),
+           pagingSourceFactory = {
+               PagingSource("Bearer $token", apiService)
            }
-       }
+       ).liveData
+   }
 
     fun addStory(
         token: String,
         file: MultipartBody.Part,
-        description: RequestBody
+        description: RequestBody,
+        currentLocation: Location?
     ): LiveData<Result<UploadStoriesResponse>> =
         liveData(Dispatchers.IO){
             emit(Result.Loading)
             try {
-                val response = apiService.uploadStories("Bearer $token", file, description)
+                val response = if (currentLocation != null){
+                    apiService.uploadStories(
+                        "Bearer $token",
+                        file, description,
+                        currentLocation.latitude.toString()
+                            .toRequestBody("text/plain".toMediaType()),
+                        currentLocation.longitude.toString()
+                            .toRequestBody("text/plain".toMediaType())
+                    )
+                } else {
+                    apiService.uploadStories("Bearer $token", file, description)
+                }
                 emit(Result.Success(response))
+            } catch (e: Exception){
+                emit(Result.Error(e.message.toString()))
+            }
+        }
+
+    fun getStoryWithLocation(token: String): LiveData<Result<List<ListStoryItem>>> =
+        liveData(Dispatchers.IO){
+            emit(Result.Loading)
+            try {
+                val response = apiService.getStoriesWithLocation("Bearer $token")
+                val storyItem = response.listStory
+                emit(Result.Success(storyItem))
             } catch (e: Exception){
                 emit(Result.Error(e.message.toString()))
             }

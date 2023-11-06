@@ -7,6 +7,7 @@ import com.submisson.aleggappstory.data.UserRepository
 import com.submisson.aleggappstory.di.Injection
 import com.submisson.aleggappstory.view.login.LoginViewModel
 import com.submisson.aleggappstory.view.main.MainViewModel
+import com.submisson.aleggappstory.view.maps.MapsViewModel
 import com.submisson.aleggappstory.view.signup.SignupViewModel
 import com.submisson.aleggappstory.view.upload.AddStoryViewModel
 
@@ -25,6 +26,9 @@ class ViewModelFactory(private val repository: UserRepository): ViewModelProvide
             }
             modelClass.isAssignableFrom(AddStoryViewModel::class.java)-> {
                 AddStoryViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(MapsViewModel::class.java) -> {
+                MapsViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

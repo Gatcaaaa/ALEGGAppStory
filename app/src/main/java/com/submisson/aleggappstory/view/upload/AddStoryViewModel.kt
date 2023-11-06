@@ -1,5 +1,6 @@
 package com.submisson.aleggappstory.view.upload
 
+import android.location.Location
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
@@ -23,8 +24,9 @@ class AddStoryViewModel(private val repository: UserRepository): ViewModel() {
         token: String,
         file: MultipartBody.Part,
         description: RequestBody,
+        currentLocation: Location?
     ) {
-        val liveData = repository.addStory(token, file, description)
+        val liveData = repository.addStory(token, file, description,currentLocation)
         _addStoryViewModel.addSource(liveData) { result ->
             _addStoryViewModel.value = result
         }

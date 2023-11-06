@@ -10,9 +10,9 @@ import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.submisson.aleggappstory.R
-import com.submisson.aleggappstory.data.Result
 import com.submisson.aleggappstory.databinding.ActivityMainBinding
 import com.submisson.aleggappstory.view.ViewModelFactory
+import com.submisson.aleggappstory.view.maps.MapsActivity
 import com.submisson.aleggappstory.view.upload.AddStoryActivity
 import com.submisson.aleggappstory.view.welcome.WelcomeActivity
 
@@ -20,12 +20,13 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var mainViewModel: MainViewModel
     private lateinit var binding: ActivityMainBinding
-    private lateinit var adapter: ListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        showLoading(true)
 
         val factory : ViewModelFactory = ViewModelFactory.getInstance(this)
         mainViewModel = ViewModelProvider(this, factory)[MainViewModel::class.java]
@@ -33,8 +34,15 @@ class MainActivity : AppCompatActivity() {
         val layoutManager = LinearLayoutManager(this)
         binding.rvStoryList.layoutManager = layoutManager
 
-        setupLogin()
-        setupListItem()
+        mainViewModel.getSession().observe(this){ result ->
+            val token = result.token
+            if (!result.isLogin){
+                startActivity(Intent(this, WelcomeActivity::class.java))
+                finish()
+            }
+            setupListItem(token)
+        }
+
         setupAddStory()
     }
 
@@ -45,34 +53,17 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-    private fun setupLogin() {
-        mainViewModel.getSession().observe(this){ result ->
-            if (!result.isLogin){
-                startActivity(Intent(this, WelcomeActivity::class.java))
-                finish()
-            } else {
-                mainViewModel.getStories(result.token)
+    private fun setupListItem(token: String) {
+        val adapter = ListAdapter()
+        binding.rvStoryList.adapter = adapter.withLoadStateFooter(
+            footer = LoadingStateAdapter {
+                adapter.retry()
             }
+        )
+        mainViewModel.getStories(token).observe(this){
+            adapter.submitData(lifecycle, it)
         }
-    }
-
-    private fun setupListItem() {
-        mainViewModel.storyListItem.observe(this){
-            when (it){
-                is Result.Loading -> {
-                    showLoading(true)
-                }
-                is Result.Error -> {
-                    showLoading(false)
-                }
-                is Result.Success -> {
-                    showLoading(false)
-                    adapter = ListAdapter(it.data)
-                    binding.rvStoryList.adapter = adapter
-                }
-            }
-        }
+        showLoading(false)
     }
 
 
@@ -85,6 +76,11 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_logout -> mainViewModel.logout()
+            R.id.menu_maps -> {
+                val intent = Intent(this, MapsActivity::class.java)
+                startActivity(intent)
+                true
+            }
         }
         return super.onOptionsItemSelected(item)
     }
